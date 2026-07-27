@@ -1227,3 +1227,67 @@ i{font-style:normal}
 }
 .wave-note p{font-size:14px;color:var(--txt2);max-width:900px}
 .wave-note strong{color:var(--txt)}
+
+/* ---------- threshold viz: collision-free lanes ----------
+   Market benchmarks live ABOVE the axis, our thresholds BELOW it.
+   The two groups can therefore never overlap each other.        */
+.threshold-viz h4{margin-bottom:78px}
+
+/* our thresholds: all three below the axis */
+.tv-fill.bundle .tv-chip{
+  top:auto;bottom:-46px;
+  background:rgba(74,222,128,.14);color:#86efac;border:1px solid rgba(74,222,128,.3);
+}
+.tv-fill.bump .tv-chip{bottom:-46px}
+.tv-fill.single .tv-chip{bottom:-46px}
+
+/* market benchmarks: both above the axis, staggered so they
+   cannot collide with each other at any viewport width */
+.tv-marker.swiss span{top:-32px;bottom:auto}
+.tv-marker.pet{top:-36px;bottom:-8px}
+.tv-marker.pet span{top:-26px;bottom:auto}
+
+.tv-ticks{margin-top:80px}
+
+/* below ~1080px the three chips no longer fit on one lane,
+   so they step down into three lanes instead of overlapping */
+@media (max-width:1080px){
+  .tv-chip{font-size:10.5px;padding:5px 10px}
+  .tv-fill.bundle .tv-chip{bottom:-44px}
+  .tv-fill.bump .tv-chip{bottom:-74px}
+  .tv-fill.single .tv-chip{bottom:-104px}
+  .tv-ticks{margin-top:136px}
+}
+@media (max-width:768px){
+  .threshold-viz{padding:32px 24px}
+  .tv-marker span{font-size:9.5px}
+}
+
+/* ---------- contact fallback under the data room button ---------- */
+.contact-fallback{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  flex-wrap:wrap;margin-top:18px;
+}
+.cf-lead{font-size:13px;color:var(--txt3)}
+.copy-mail{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:13px;color:var(--txt);
+  background:var(--panel);border:1px solid var(--line2);
+  border-radius:99px;padding:9px 8px 9px 18px;cursor:pointer;
+  transition:border-color .25s,background .25s,transform .25s var(--ease);
+}
+.copy-mail:hover{border-color:rgba(139,139,255,.45);background:var(--panel2);transform:translateY(-1px)}
+.copy-mail:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.cm-state{
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--acc);background:rgba(139,139,255,.14);
+  border:1px solid rgba(139,139,255,.3);border-radius:99px;padding:4px 12px;
+  transition:color .2s,background .2s,border-color .2s;
+}
+.copy-mail.copied .cm-state{
+  color:var(--good);background:rgba(74,222,128,.14);border-color:rgba(74,222,128,.35);
+}
+.copy-mail.copied{border-color:rgba(74,222,128,.4)}
+@media (max-width:520px){
+  .cm-addr{font-size:11.5px}
+}

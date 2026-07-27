@@ -323,12 +323,75 @@
     }, { passive: true });
   }
 
+  /* ---------- Copy email to clipboard (fallback for the mailto button) ---------- */
+  function initCopyMail() {
+    var btn = document.getElementById('copyMail');
+    if (!btn) return;
+    var state = btn.querySelector('.cm-state');
+    var mail = btn.getAttribute('data-mail');
+    var resetTimer = null;
+
+    function flash(msg) {
+      if (state) state.textContent = msg;
+      btn.classList.add('copied');
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function () {
+        btn.classList.remove('copied');
+        if (state) state.textContent = 'Copy';
+      }, 2200);
+    }
+
+    function legacyCopy() {
+      // navigator.clipboard is unavailable on file:// and other non-secure origins
+      var ta = document.createElement('textarea');
+      ta.value = mail;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    // last resort: highlight the address so the reader can copy it manually
+    function selectAddress() {
+      var addr = btn.querySelector('.cm-addr');
+      if (!addr || !window.getSelection || !document.createRange) return;
+      var range = document.createRange();
+      range.selectNodeContents(addr);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+
+    function fallback() {
+      if (legacyCopy()) { flash('Copied'); return; }
+      selectAddress();
+      flash('Press Ctrl+C');
+    }
+
+    btn.addEventListener('click', function () {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(mail).then(
+          function () { flash('Copied'); },
+          fallback
+        );
+      } else {
+        fallback();
+      }
+    });
+  }
+
   /* ---------- boot ---------- */
   function boot() {
     buildProjChart();
     initObserver();
     initCardGlow();
     initParallax();
+    initCopyMail();
   }
 
   if (document.readyState === 'loading') {
