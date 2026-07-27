@@ -240,6 +240,7 @@
   function initObserver() {
     var handlers = [
       { sel: '#ceilingChart', fn: playHBars },
+      { sel: '#compBudgetChart', fn: playHBars },
       { sel: '#distChart', fn: playHBars },
       { sel: '#channelChart', fn: playHBars },
       { sel: '#fundsBar', fn: playFundsBar },
@@ -286,7 +287,7 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
 
     document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
-    ['#ceilingChart', '#distChart', '#channelChart', '#fundsBar', '#fundsBar2', '#projChart', '.timeline', '#thresholdViz'].forEach(function (sel) {
+    ['#ceilingChart', '#compBudgetChart', '#distChart', '#channelChart', '#fundsBar', '#fundsBar2', '#projChart', '.timeline', '#thresholdViz'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) { obs.observe(el); });
     });
   }

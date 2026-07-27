@@ -1210,3 +1210,7 @@ i{font-style:normal}
   .eq-arrow{transform:rotate(90deg)}
   .repl-table .mt-row{grid-template-columns:1fr 1fr;row-gap:2px}
 }
+
+/* competitive landscape tweaks */
+.strat-plan .plan-p2{margin-top:12px}
+.table-wrap .src + .src{margin-left:22px}
